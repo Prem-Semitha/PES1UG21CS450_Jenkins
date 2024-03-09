@@ -1,15 +1,21 @@
-name: Build C++ Project (Optional Testing Removed)
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release
-      - name: Build
-        run: cmake --build ${{github.workspace}}/build --config Release
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    sh 'g++ PES1UG21CS450-1.cpp -o PES1UG21CS450-1'
+                    python hello.py
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    sh './PES1UG21CS450-1'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying'
